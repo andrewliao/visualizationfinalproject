@@ -65,15 +65,6 @@ const contractDeploy = (crypto) => {
                 <p><b>Market Capitalization: </b>$${mcap}</p>
                
                 <P><b>Percentage Change Last 24H: </b>${prcnt}%</p>
-                <form id="alertForm">
-                    <label><b>Alert me at price:</b></label><input id = "alert" type = "text">
-                </form>
-                <form method = "post" action="/submit" id="Email"> 
-                    <b>Send me this data by email: </b>
-                    <input id = "emailForm" type="text" name="user[email]" value = "replaceme@gmail.com">
-                    <input id = "dataSend" type = "text" name = "data" value = "Name: ${name}; Price: $${price}; ATH: $${ath}; ATL:$${atl}; Supply: ${supply} tokens; Market Cap: $${mcap}; Lowest in 24h: $${low_24}; Highest in 24h: $${high_24}">
-                    <input type="submit" id = "submitEmail" value="Send email" action="">
-                    </form>
                 `
 
         })
