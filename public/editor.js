@@ -75,15 +75,6 @@ const contractDeploy = (crypto) => {
                     <input type="submit" id = "submitEmail" value="Send email" action="">
                     </form>
                 `
-<<<<<<< HEAD:editor.js
-=======
-                
-                const alert = document.querySelector('#alertForm')
-                alert.addEventListener('submit', function(event){
-                    event.preventDefault()
-                    PriceUpdates()
-                })
->>>>>>> f23399afae9fa89099359f2723bb7918a00fab61:public/editor.js
 
         })
         PriceUpdates()
