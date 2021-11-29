@@ -33,18 +33,19 @@
            <p id= "crypto"></p>
            <div id ="mid"></div>
            <div id ="right">
-            <form id="contact-form">
-                <input type="hidden" name="contact_number">
-                <label>Name</label>
-                <input type="text" name="user_name">
-                <label>Email</label>
-                <input type="email" name="user_email">
-                <label>Message</label>
-                <textarea name="message"></textarea>
-                <input type="submit" value="Send">
-            </form>
+            <div id="coins">
+                <button onclick="contractDeploy('bitcoin')">Bitcoin</button>
+                <button onclick="contractDeploy('ethereum')">Ethereum</button>
+                <button onclick="contractDeploy('binancecoin')">Binance Coin</button>
+                <button onclick="contractDeploy('solana')">Solana</button>
+                <button onclick="contractDeploy('cardano')">Cardano</button>
+                <button onclick="contractDeploy('ripple')">XRP</button>
+                <button onclick="contractDeploy('polkadot')">Polkadot</button>
+                <button onclick="contractDeploy('dogecoin')">Dogecoin</button>
+           </div>
            </div>
            <div id ="info"></div>
+
        </div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="editor.js" type="text/javascript"></script>

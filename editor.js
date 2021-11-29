@@ -17,6 +17,10 @@ const pageLoad = () => {
   
 }
 
+const clickCoin = (coin) => {
+    contractDeploy(coin);
+    PriceUpdates();
+}
 
 const contractDeploy = (crypto) => {
     document.querySelector('#crypto').innerHTML = crypto
@@ -43,29 +47,29 @@ const contractDeploy = (crypto) => {
             let high_24= market.high_24h.usd
             let low_24 = market.low_24h.usd
             let prcnt = market.price_change_percentage_24h_in_currency.usd
-            data.innerHTML += `
+            data.innerHTML = `
+                <div id="coins">
+                    <button onclick="clickCoin('bitcoin')">Bitcoin</button>
+                    <button onclick="contractDeploy('ethereum')">Ethereum</button>
+                    <button onclick="contractDeploy('binancecoin')">Binance Coin</button>
+                    <button onclick="contractDeploy('solana')">Solana</button>
+                    <button onclick="contractDeploy('cardano')">Cardano</button>
+                    <button onclick="contractDeploy('ripple')">XRP</button>
+                    <button onclick="contractDeploy('polkadot')">Polkadot</button>
+                    <button onclick="contractDeploy('dogecoin')">Dogecoin</button>
+                </div>
                 <img id = "token" src = "${img}"/>
                 <div id = "ticker"><h2>${name} </h2></div>
-                <p id="highlight"><b>All Time High:</b> $${ath}</p>
-                <p id ="highlight"><b>All Time Low: </b>$${atl}</p>
                 <p id = "price"><b id="price">Current Price: </b>$${price}</p>
                 <p><b>Circulating Supply: </b>${supply} tokens</p>
                 <p><b>Market Capitalization: </b>$${mcap}</p>
                
-                <p><b>Highest Price in 24H: </b>$${high_24}</p>
-                <p><b>Lowest Price In 24H: </b>$${low_24}</p>
                 <P><b>Percentage Change Last 24H: </b>${prcnt}%</p>
                 <form id="alertForm">
                     <label><b>Alert me at price:</b></label><input id = "alert" type = "text">
                 </form>
                 
                 `
-
-                const alert = document.querySelector('#alertForm')
-                alert.addEventListener('submit', function(event){
-                    event.preventDefault()
-                    PriceUpdates()
-                })
 
         })
         PriceUpdates()
@@ -130,9 +134,11 @@ const contractDeploy = (crypto) => {
 
 
 const PriceUpdates = (alertPrice) => {
+    console.log("HERE")
     //query coingecko API every 5 seconds for a new price
     setTimeout(PriceUpdates, 10000)
    
+
     let crypto = document.querySelector('#crypto').innerHTML
     fetch(`${baseURL}/coins/${crypto}`)
         .then(request => request.json())
