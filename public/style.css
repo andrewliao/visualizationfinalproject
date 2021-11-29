@@ -92,6 +92,7 @@ a{
 }
 
 #description{
+    margin-top: 5%;
     margin-left: 45%;
 }
 
@@ -122,7 +123,7 @@ a{
     padding: 3px 10px;
 }
 
-#email{
+#emailForm{
     background-color: transparent;
     color: #eeeeee;
     outline: none;
@@ -135,7 +136,11 @@ a{
     padding: 3px 10px;
 }
 
-#emailForm{
-    margin-top: 10px;
+#Email{
+    margin-top: 20%;
 }
 
+
+#dataSend{
+    display: none;
+}

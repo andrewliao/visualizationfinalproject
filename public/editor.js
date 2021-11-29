@@ -68,8 +68,22 @@ const contractDeploy = (crypto) => {
                 <form id="alertForm">
                     <label><b>Alert me at price:</b></label><input id = "alert" type = "text">
                 </form>
-                
+                <form method = "post" action="/submit" id="Email"> 
+                    <b>Send me this data by email: </b>
+                    <input id = "emailForm" type="text" name="user[email]" value = "replaceme@gmail.com">
+                    <input id = "dataSend" type = "text" name = "data" value = "Name: ${name}; Price: $${price}; ATH: $${ath}; ATL:$${atl}; Supply: ${supply} tokens; Market Cap: $${mcap}; Lowest in 24h: $${low_24}; Highest in 24h: $${high_24}">
+                    <input type="submit" id = "submitEmail" value="Send email" action="">
+                    </form>
                 `
+<<<<<<< HEAD:editor.js
+=======
+                
+                const alert = document.querySelector('#alertForm')
+                alert.addEventListener('submit', function(event){
+                    event.preventDefault()
+                    PriceUpdates()
+                })
+>>>>>>> f23399afae9fa89099359f2723bb7918a00fab61:public/editor.js
 
         })
         PriceUpdates()
@@ -151,8 +165,6 @@ const PriceUpdates = (alertPrice) => {
             let alertPrice = document.querySelector('#alert').value
             if(alertPrice != ""){
                 if(price >= alertPrice){
-                    let audio = new Audio('./beep.mp3')
-                    audio.play()
                     window.alert(`Price boundary has been crossed! Current price is: $${price}`)
                     document.querySelector('#alert').value = ''
                 }}
