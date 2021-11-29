@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<style>
+  svg {
+  	width: 400px;
+  	height: 400px;
+  }
+</style>
+
+<body>
+  <svg></svg>
+</body>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+
+  const margin = {top: 20, right: 20, bottom: 20, left: 20};
+  const width = 400 - margin.left - margin.right;
+  const height = 400 - margin.top - margin.bottom;
+
+  const svg = d3.select('svg')
+  // .append('g')
+  // .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+  svg.attr('transform', 'translate(0, 400)');
+
+  const dataset = [[5, 20],	[480,	90], [250, 50], [100, 33], [330, 95], [410, 12], [475, 44], [25, 67],	[85, 21],	[220,	88]];
+
+  const xData = dataset.map(d => d[0]);
+  const yData = dataset.map(d => d[1]);
+
+  const xScale = d3.scaleLinear()
+  .domain([d3.min(xData), d3.max(xData)])
+  .range([10, 390]);
+
+  const yScale = d3.scaleLinear()
+  .domain([d3.min(yData), d3.max(yData)])
+  .range([10, 390]);
+
+  svg.selectAll('circle')
+  .data(dataset)
+  .enter()
+  .append('circle')
+  .attr('cx',	d	=> xScale(d[0]))
+  .attr('cy',	d	=> yScale(d[1]))
+  .attr('r',	5);
+
+</script>
+
+</html>
