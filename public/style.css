@@ -144,3 +144,11 @@ a{
 #dataSend{
     display: none;
 }
+.container {
+    font-family: arial;
+    font-size: 24px;
+    outline: dashed 1px black;
+    /* Center child horizontally*/
+    display: flex;
+    justify-content: center;
+  }
