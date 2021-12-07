@@ -37,8 +37,6 @@
         <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
 
-    <!-- Create a div where the graph will take place -->
-    <div id="my_dataviz" class="container"></div>
 
     <!--
     <script>
@@ -171,7 +169,12 @@
         // the inner radius of the pie chart, set 0 for now
         .innerRadius(0);
     
-    
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div")	
+        .attr("class", "tooltip")				
+        .style("opacity", 0);
+
+
     // Constructs a new pie function
     var pie = d3.layout.pie()
         // not sorting
@@ -206,6 +209,19 @@
           document.querySelector('#contract').value = name
           contractDeploy(name);
         })
+        .on("mouseover", function(d) {		
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            div	.html(d.data.name + "<br>" + d.data.market_cap)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        });
     ;
     
       // append path, the pie for each age
@@ -220,9 +236,6 @@
           .style("text-anchor", "middle")
           .text(function(d) { return d.data.name; });
 
-    console.log("Da is " + data[0].name);
-
-    
     });
     
     </script>
