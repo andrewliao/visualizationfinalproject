@@ -151,6 +151,8 @@
 
     <script>
     
+
+
     var width = 960,
         height = 500,
         // find the min of width and height and devided by 2
@@ -174,77 +176,168 @@
         .attr("class", "tooltip")				
         .style("opacity", 0);
 
-
-    // Constructs a new pie function
-    var pie = d3.layout.pie()
-        // not sorting
-        .sort(null)
-        // set the pie chart value to population.
-        .value(function(d) { return d.market_cap; });
-    
-    var svg = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-      .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-    
-    d3.csv("pie.csv", function(error, data) {
-    
-      // convert all population to integer
-      data.forEach(function(d) {
-        d.market_cap = +d.market_cap;
-      });
-    
-      function lowerCaseFirstLetter(string) {
-        return string.charAt(0).toLowerCase() + string.slice(1);
+    function update(data) {
+        var column = "current_price";
+        if(data == 1) {
+            column = "market_cap";
+        } else if(data == 2) {    
+            column = "circulating_supply";
         }
-      // append a group
-      var g = svg.selectAll(".arc")
-          .data(pie(data))
-        .enter().append("g")
-          .attr("class", "arc")
-          .on("click", function(d) {
-          // code you want executed on the click event 
-          name = lowerCaseFirstLetter(d.data.name)
-          document.querySelector('#contract').value = name
-          contractDeploy(name);
-        })
-        .on("mouseover", function(d) {		
-            div.transition()		
-                .duration(200)		
-                .style("opacity", .9);		
-            div	.html(d.data.name + "<br>" + d.data.market_cap)	
-                .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "px");	
-            })					
-        .on("mouseout", function(d) {		
-            div.transition()		
-                .duration(500)		
-                .style("opacity", 0);	
+
+
+        d3.select("svg").remove();
+        // Constructs a new pie function
+        var pie = d3.layout.pie()
+            // not sorting
+            .sort(null)
+            // set the pie chart value to population.
+            .value(function(d) { 
+                console.log("DI is " + d[`${column}`]);
+                return d[`${column}`]; });
+        
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+        .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+            .style("font-size", "16px") 
+            .style("text-decoration", "underline")  
+            .text("Value vs Date Graph");;
+
+        d3.csv("pie.csv", function(error, data) {
+        
+        // convert all population to integer
+        data.forEach(function(d) {
+            d[`${column}`] = +d[`${column}`];
         });
-    ;
-    
-      // append path, the pie for each age
-      g.append("path")
-          .attr("d", arc)
-          .style("fill", function(d) { return color(d.data.name); });
-    
-      // add text
-      g.append("text")
-          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.data.name; });
+        
+        function lowerCaseFirstLetter(string) {
+            return string.charAt(0).toLowerCase() + string.slice(1);
+            }
+        // append a group
+        var g = svg.selectAll(".arc")
+            .data(pie(data))
+            .enter().append("g")
+            .attr("class", "arc")
+            .on("click", function(d) {
+            // code you want executed on the click event 
+            name = lowerCaseFirstLetter(d.data.name)
+            document.querySelector('#contract').value = name
+            contractDeploy(name);
+            })
+            .on("mouseover", function(d) {		
+                div.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);		
+                div	.html(d.data.name + "<br>" + d.data[`${column}`])	
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px");	
+                })					
+            .on("mouseout", function(d) {		
+                div.transition()		
+                    .duration(500)		
+                    .style("opacity", 0);	
+            });
+        ;
+        
+        // append path, the pie for each age
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", function(d) { return color(d.data.name); });
+        
+        // add text
+        g.append("text")
+            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text(function(d) { return d.data.name; });
 
     });
+
+        /*
+
+        // Constructs a new pie function
+        var pie = d3.layout.pie()
+            // not sorting
+            .sort(null)
+            // set the pie chart value to population.
+            .value(function(d) { return d.market_cap; });
+        
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+        .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+            .style("font-size", "16px") 
+            .style("text-decoration", "underline")  
+            .text("Value vs Date Graph");;
+
+        d3.csv("pie.csv", function(error, data) {
+        
+        // convert all population to integer
+        data.forEach(function(d) {
+            d.market_cap = +d.market_cap;
+        });
+        
+        function lowerCaseFirstLetter(string) {
+            return string.charAt(0).toLowerCase() + string.slice(1);
+            }
+        // append a group
+        var g = svg.selectAll(".arc")
+            .data(pie(data))
+            .enter().append("g")
+            .attr("class", "arc")
+            .on("click", function(d) {
+            // code you want executed on the click event 
+            name = lowerCaseFirstLetter(d.data.name)
+            document.querySelector('#contract').value = name
+            contractDeploy(name);
+            })
+            .on("mouseover", function(d) {		
+                div.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);		
+                div	.html(d.data.name + "<br>" + d.data.market_cap)	
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px");	
+                })					
+            .on("mouseout", function(d) {		
+                div.transition()		
+                    .duration(500)		
+                    .style("opacity", 0);	
+            });
+        ;
+        
+        // append path, the pie for each age
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", function(d) { return color(d.data.name); });
+        
+        // add text
+        g.append("text")
+            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text(function(d) { return d.data.name; });
+
+    });
+    */
+}
+
+// start the pie graph as market cap
+update(1)
     
     </script>
-
-           </div>
+            <div class="btn-group">
+                <button onclick="update(1)" class="buttons">Click for Market Cap</button>
+                <button onclick="update(2)" class="buttons">Click for Circulating Supply</button>
+                <button onclick="update(3)" class="buttons">Click for Current Price</button>
+            </div>
            <div id = "main">
             <p id= "crypto"></p>
             <div id ="mid"></div>
             <div id = "info"></div>
             <div id = "right"></div>
+
     </body>
 </html>
