@@ -17,11 +17,6 @@ const pageLoad = () => {
   
 }
 
-const clickCoin = (coin) => {
-    contractDeploy(coin);
-    PriceUpdates();
-}
-
 const contractDeploy = (crypto) => {
     document.querySelector('#crypto').innerHTML = crypto
     fetch(`${baseURL}/coins/${crypto}`)
@@ -37,7 +32,7 @@ const contractDeploy = (crypto) => {
                 <h2 id ="description">General Info</h2>
                 <p>${description}</p>`
                     
-            let data = document.querySelector('#right')
+            let data = document.querySelector('#rightt')
             let market = response.market_data
             let price = market.current_price.usd
             let supply = market.circulating_supply
@@ -48,16 +43,6 @@ const contractDeploy = (crypto) => {
             let low_24 = market.low_24h.usd
             let prcnt = market.price_change_percentage_24h_in_currency.usd
             data.innerHTML = `
-                <div id="coins">
-                    <button onclick="clickCoin('bitcoin')">Bitcoin</button>
-                    <button onclick="contractDeploy('ethereum')">Ethereum</button>
-                    <button onclick="contractDeploy('binancecoin')">Binance Coin</button>
-                    <button onclick="contractDeploy('solana')">Solana</button>
-                    <button onclick="contractDeploy('cardano')">Cardano</button>
-                    <button onclick="contractDeploy('ripple')">XRP</button>
-                    <button onclick="contractDeploy('polkadot')">Polkadot</button>
-                    <button onclick="contractDeploy('dogecoin')">Dogecoin</button>
-                </div>
                 <img id = "token" src = "${img}"/>
                 <div id = "ticker"><h2>${name} </h2></div>
                 <p id = "price"><b id="price">Current Price: </b>$${price}</p>

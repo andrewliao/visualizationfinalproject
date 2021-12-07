@@ -205,9 +205,9 @@
           .attr("class", "arc")
           .on("click", function(d) {
           // code you want executed on the click event 
-          console.log(d.data.name);
-          console.log(typeof d.data.name)
-          contractDeploy(lowerCaseFirstLetter(d.data.name));
+          name = lowerCaseFirstLetter(d.data.name)
+          document.querySelector('#contract').value = name
+          contractDeploy(name);
         })
     ;
     
@@ -234,18 +234,7 @@
            <div id = "main">
             <p id= "crypto"></p>
             <div id ="mid"></div>
-            <div id ="right">
-             <div id="coins">
-                 <button onclick="contractDeploy('bitcoin')">Bitcoin</button>
-                 <button onclick="contractDeploy('ethereum')">Ethereum</button>
-                 <button onclick="contractDeploy('binancecoin')">Binance Coin</button>
-                 <button onclick="contractDeploy('solana')">Solana</button>
-                 <button onclick="contractDeploy('cardano')">Cardano</button>
-                 <button onclick="contractDeploy('ripple')">XRP</button>
-                 <button onclick="contractDeploy('polkadot')">Polkadot</button>
-                 <button onclick="contractDeploy('dogecoin')">Dogecoin</button>
- 
-            </div>
-            </div>
+            <div id = "info"></div>
+            <div id = "right"></div>
     </body>
 </html>

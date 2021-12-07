@@ -52,7 +52,7 @@ body{
     border-bottom: solid gray 1px;
 }
 
-#right{
+#rightt{
     width: 100%;
     margin-left: -20%;
     grid-area: b;
@@ -108,36 +108,6 @@ a{
 #ath{
     margin: 5%;
    
-}
-
-#alert{
-    background-color: transparent;
-    color: #eeeeee;
-    outline: none;
-    outline-style: none;
-    outline-offset: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: solid #eeeeee 1px;
-    padding: 3px 10px;
-}
-
-#emailForm{
-    background-color: transparent;
-    color: #eeeeee;
-    outline: none;
-    outline-style: none;
-    outline-offset: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: solid #eeeeee 1px;
-    padding: 3px 10px;
-}
-
-#Email{
-    margin-top: 20%;
 }
 
 
