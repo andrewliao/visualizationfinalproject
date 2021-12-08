@@ -28,8 +28,7 @@
         </script>
     </head>
     <body>
-        <div id = "contractForm"></div>
-        <div id ="info"></div>
+    <div id = "contractForm"></div>
 
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="editor.js" type="text/javascript"></script>
@@ -51,6 +50,7 @@
     </style>
     <body>
     <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="d3.legend.js"></script>
 
     <script>
     
@@ -157,6 +157,7 @@
         // append path, the pie for each age
         g.append("path")
             .attr("d", arc)
+            .attr("data-legend", function(d){return d.data.name})
             .style("fill", function(d) { return color(d.data.name); });
         
         // add text
@@ -166,6 +167,11 @@
             .style("text-anchor", "middle")
             .text(function(d) { return d.data.name; });
 
+            legend = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", "translate(50,30)")
+            .style("font-size", "12px")
+            .call(d3.legend)
     });
 }
 
