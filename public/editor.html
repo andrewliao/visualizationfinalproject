@@ -36,103 +36,6 @@
     
         <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
-
-
-    <!--
-    <script>
-
-
-    // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 20, bottom: 30, left: 100},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
-
-    // append the svg object to the body of the page
-    var svg = d3.select("#my_dataviz")
-    .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
-
-    //Read the data
-    d3.csv("./test.csv", function(data) {
-
-        // Add X axis
-        var x = d3.scaleLog()
-            .domain([1000000, 10000000000000])
-            .range([ 0, width ])
-            .base(10000);
-
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
-
-        // Add Y axis
-        var y = d3.scaleLog()
-            .domain([1000, 100000000000000])
-            .range([ height, 0])
-            .base(10000);
-
-        svg.append("g")
-            .call(d3.axisLeft(y));
-
-        // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
-        // Its opacity is set to 0: we don't see it by default.
-        const tooltip = d3.select("#my_dataviz")
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color","black")
-            .style("border", "solid")
-            .style("border-width", "1px")
-            .style("border-radius", "5px")
-            .style("padding", "10px")
-
-          // A function that change this tooltip when the user hover a point.
-        // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
-        const mouseover = function(event, d) {
-            tooltip
-            .style("opacity", 1)
-        }
-
-        const mousemove = function(event, d) {
-            tooltip
-            .html(`The exact value of<br>the Ground Living area is: ${d}`)
-            .style("left", (event.x)/2 + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
-            .style("top", (event.y)/2 + "px")
-        }
-
-        // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
-        const mouseleave = function(event,d) {
-            tooltip
-            .transition()
-            .duration(1000)
-            .style("opacity", 0)
-        }
-
-        // Add dots
-        svg.append('g')
-            .selectAll("dot")
-            .data(data.filter(function(d,i){return i<50}))
-            .enter()
-            .append("circle")
-                .attr("cx", function (d) { return x(d.market_cap); } )
-                .attr("cy", function (d) { return y(d.circulating_supply); } )
-                .attr("r", 7)
-                .style("fill", "#69b3a2")
-                .style("opacity", 0.3)
-                .style("stroke","green")
-            .on("mouseover", mouseover )
-            .on("mousemove", mousemove )
-            .on("mouseleave", mouseleave )
-
-        })
-
-    </script>
-
-    -->
     <!DOCTYPE html>
     <meta charset="utf-8">
     <style>
@@ -151,17 +54,15 @@
 
     <script>
     
-
-
-    var width = 960,
-        height = 500,
+    var width = 1200,
+        height = 800,
         // find the min of width and height and devided by 2
         radius = Math.min(width, height) / 2;
     
     // Scales are functions that map from an input domain to an output range.  Ordinal scales have a discrete domain, such as a set of names or categories. 
     // from: https://github.com/mbostock/d3/wiki/Ordinal-Scales
     var color = d3.scale.ordinal()
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+        .range(["gold", "blue", "green", "yellow", "grey", "darkgreen", "pink", "brown", "slateblue", "orange"]);
     
     // Constructs a new arc generator with the default innerRadius-, outerRadius-, startAngle- and endAngle-accessor functions.  
     // from: https://github.com/mbostock/d3/wiki/SVG-Shapes#arc
@@ -176,14 +77,23 @@
         .attr("class", "tooltip")				
         .style("opacity", 0);
 
+    function changeText(text) {
+
+        document.getElementById('chgtext').innerHTML = text;
+
+    }
+
     function update(data) {
         var column = "current_price";
         if(data == 1) {
             column = "market_cap";
+            changeText("Pie Chart Currently Displaying Market Cap (in $USD)")
         } else if(data == 2) {    
             column = "circulating_supply";
+            changeText("Pie Chart Currently Displaying Circulating supply (number of crypto coins)")
+        } else {
+            changeText("Pie Chart Currently Displaying Current Price of Crypto (in $USD)")
         }
-
 
         d3.select("svg").remove();
         // Constructs a new pie function
@@ -200,9 +110,13 @@
             .attr("height", height)
         .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+            .attr("id", "pie")
             .style("font-size", "16px") 
-            .style("text-decoration", "underline")  
-            .text("Value vs Date Graph");;
+            .style("text-decoration", "underline");
+
+            //add id to div around pie chart
+        document.getElementsByTagName('svg')[0].id = 'pieChart';
+        console.log(document.getElementsByTagName('svg'))
 
         d3.csv("pie.csv", function(error, data) {
         
@@ -253,75 +167,6 @@
             .text(function(d) { return d.data.name; });
 
     });
-
-        /*
-
-        // Constructs a new pie function
-        var pie = d3.layout.pie()
-            // not sorting
-            .sort(null)
-            // set the pie chart value to population.
-            .value(function(d) { return d.market_cap; });
-        
-        var svg = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height)
-        .append("g")
-            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-            .style("font-size", "16px") 
-            .style("text-decoration", "underline")  
-            .text("Value vs Date Graph");;
-
-        d3.csv("pie.csv", function(error, data) {
-        
-        // convert all population to integer
-        data.forEach(function(d) {
-            d.market_cap = +d.market_cap;
-        });
-        
-        function lowerCaseFirstLetter(string) {
-            return string.charAt(0).toLowerCase() + string.slice(1);
-            }
-        // append a group
-        var g = svg.selectAll(".arc")
-            .data(pie(data))
-            .enter().append("g")
-            .attr("class", "arc")
-            .on("click", function(d) {
-            // code you want executed on the click event 
-            name = lowerCaseFirstLetter(d.data.name)
-            document.querySelector('#contract').value = name
-            contractDeploy(name);
-            })
-            .on("mouseover", function(d) {		
-                div.transition()		
-                    .duration(200)		
-                    .style("opacity", .9);		
-                div	.html(d.data.name + "<br>" + d.data.market_cap)	
-                    .style("left", (d3.event.pageX) + "px")		
-                    .style("top", (d3.event.pageY - 28) + "px");	
-                })					
-            .on("mouseout", function(d) {		
-                div.transition()		
-                    .duration(500)		
-                    .style("opacity", 0);	
-            });
-        ;
-        
-        // append path, the pie for each age
-        g.append("path")
-            .attr("d", arc)
-            .style("fill", function(d) { return color(d.data.name); });
-        
-        // add text
-        g.append("text")
-            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-            .attr("dy", ".35em")
-            .style("text-anchor", "middle")
-            .text(function(d) { return d.data.name; });
-
-    });
-    */
 }
 
 // start the pie graph as market cap
@@ -329,15 +174,18 @@ update(1)
     
     </script>
             <div class="btn-group">
-                <button onclick="update(1)" class="buttons">Click for Market Cap</button>
-                <button onclick="update(2)" class="buttons">Click for Circulating Supply</button>
-                <button onclick="update(3)" class="buttons">Click for Current Price</button>
+                <div id="chgtext"></div> 
+                <button onclick="update(1)"  class="buttons">Click for Market Cap (in $USD) Pie Chart</button>
+                <button onclick="update(2)"  class="buttons">Click for Circulating Supply (Number of Coins) Pie Chart</button>
+                <button onclick="update(3)"  class="buttons">Click for Current Price (in $USD) Pie Chart</button>
+                <div> NOTE: Click on individual slices of pie chart for more info on that cryto</div>
             </div>
-           <div id = "main">
-            <p id= "crypto"></p>
-            <div id ="mid"></div>
-            <div id = "info"></div>
-            <div id = "right"></div>
+                <p id= "crypto"></p>
+                <div id = "right"></div>
+                <div id ="mid"></div>
+                <div id = "info"></div>
 
     </body>
+
+    
 </html>

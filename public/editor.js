@@ -32,7 +32,7 @@ const contractDeploy = (crypto) => {
                 <h2 id ="description">General Info</h2>
                 <p>${description}</p>`
                     
-            let data = document.querySelector('#rightt')
+            let data = document.querySelector('#right')
             let market = response.market_data
             let price = market.current_price.usd
             let supply = market.circulating_supply
