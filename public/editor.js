@@ -5,7 +5,7 @@ const pageLoad = () => {
     let form = document.querySelector('#contractForm')
     form.innerHTML = ` 
     <form id = "form">
-    <label for="contract-label">Token:</label>
+    <label for="contract-label">Token Search Bar:</label>
     <input type="text" id="contract" placeholder="Please enter the name of a cryptocurrency (i.e: bitcoin)"></form>`
     
     const contract = document.querySelector('#form')
